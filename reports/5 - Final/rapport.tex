@@ -1,0 +1,77 @@
+\documentclass[a4paper, oneside, 10pt]{book}
+
+\input{../header}
+
+\hypersetup{
+    pdfauthor   = {Clément Badiola, Samuel Da Silva},% 
+    pdftitle    = {AL - Rapport de projet},%
+    pdfsubject  = {Rapport de projet},% 
+    pdfkeywords = {},% 
+    pdfcreator  = {PDFLaTeX},% 
+    pdfproducer = {PDFLaTeX}} 
+
+\author{Clément~\textsc{Badiola} \and Samuel~\textsc{Da~Silva} \and \\
+  Chargé de TD : David~\textsc{Auber}}
+\title{Architecture logicielle \\ Rapport de projet}
+\date{21 novembre 2012}
+
+\begin{document}
+
+\fancyhf{} 
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}} 
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}} 
+\fancyhead[R]{\bfseries\thepage}% Left Even, Right Odd - No de page 
+\fancyhead[L]{\bfseries\rightmark} % Left Odd - Titre section 
+\renewcommand{\headrulewidth}{0.5pt}% filet en haut de page 
+\addtolength{\headheight}{0.5pt} % espace pour le filet 
+\renewcommand{\footrulewidth}{0pt} % pas de filet en bas 
+\fancypagestyle{plain}{ % pages de tetes de chapitre 
+  \fancyhead{} % supprime lentete 
+  \renewcommand{\headrulewidth}{0pt} % et le filet 
+}
+
+\fancypagestyle{plain}{
+	\fancyhf{}
+	\fancyfoot[C]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+\dominitoc
+
+\maketitle
+
+\frontmatter
+
+\input{chapters/introduction} %Contexte, problematiques à étudier.
+
+\tableofcontents
+
+\mainmatter
+
+\input{chapters/cdc} %Présentation des fonctionnalités demandées.
+\input{chapters/architecture} %Présentation cas d'utilisation, architecture générale
+\input{chapters/travail} %Présentation de chaque pattern utilisé (le travail s'articule autour des patterns...)
+\input{chapters/bilan}
+
+\appendix
+\backmatter
+\listoffigures
+
+%\tableofcontents
+
+\newpage
+\pagestyle{empty}
+
+Rapport de projet d'architecture logicielle.\\
+Wargame data modelizing.\\
+Master 2, 2012
+
+\vfill
+
+Les sources de ce rapport sont disponibles librement sur \url{https://github.com/mr-nours/rapport-al}.
+
+\bigskip
+
+Certaines images illustrant ce document sont extraites de Wikipédia (\url{http://fr.wikipedia.org/}). Elles sont disponibles sous licence Creative Commons ou dans le domaine public.
+
+\end{document}

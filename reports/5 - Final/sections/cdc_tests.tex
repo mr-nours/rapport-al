@@ -1,0 +1,29 @@
+\section{Tests prévisionnels}
+
+Afin de garantir la fiabilité de notre livrable, nous réaliserons une série de tests unitaires et de tests fonctionnels. Les tests unitaires nous permettrons de nous assurer du bon fonctionnement de certaines parties déterminées du logiciel. 
+
+\subsection{Tests de la génération de combattants}
+Nous réalisons un ensemble de génération de soldats tout en les équipant de pièces
+d'armement puis nous vérifions la cohérence de leur force de frappe et de leur réaction
+aux attaques adversaires.
+
+\subsection{Tests de la génération de groupes armés}
+Nous générons un ensembles de groupes composés de soldats puis nous vérifions que les groupes
+sont bien cohérents par rapport aux combattants assignés.
+
+\subsection{Tests des combats}
+Nous faisons combattre des combattants et des groupes pour vérifier la cohérence de leurs réactions aux actions d'attaque et de défense.
+
+\subsection{Tests des contraintes d'équipement}
+Les combattants et groupes armés sont équipés d'une arme ou d'un bouclier puis ré-équipés d'un même type
+d'armement pour vérifier qu'ils ne possèdent pas ensuite deux fois le même type d'équipement.
+
+\subsection{Tests des observateurs}
+Les observateurs doivent fournir un résultat prédéterminé pour des groupes armés ou des combattants sur
+un scénario fixé. Nous vérifions que les résultats correspondent au scénario.
+
+\subsection{Tests des fabriques}
+Les fabriques doivent permettre de générer des combattants d'une époque particulière et d'équiper ces combattants
+avec l'armement de l'époque. Nous testons que les combattants soient bien ceux attendus pour les époques du
+moyen-age et du futur lointain. Nous testons également que leur équipement soit bien conforme à l'époque. Par
+exemple, un Space marine ne sera pas équipé d'une épée en bois, mais d'un laser.

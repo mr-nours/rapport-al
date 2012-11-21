@@ -1,0 +1,23 @@
+\section{Besoins non-fonctionnels}
+
+\subsection{Refactoring}\label{refactoring} 
+
+Le refactoring consiste à retravailler un code source dans le but d'améliorer sa lisibilité et son efficacité, et de simplifier sa maintenance.
+L'introduction de nouveaux patterns induit le besoin de refactoriser souvent le code afin de simplifier
+le codage et la compréhension.
+En plus d'un simple nettoyage, cela nous amène à vérifier que notre architecture répond toujours aux
+objectifs fixés.
+
+L'objectif est bien sûr d'obtenir un gain de clarté, de lisibilité, de maintenabilité, et probablement de performances. Nous pouvons ainsi continuer l'ajout de fonctions sur une base saine.
+
+\subsection{Transparence pour le client}
+
+Nous pensons qu'un des objectifs du génie logiciel est de tenter d'obtenir une architecture telle que l'apport
+de nouvelles fonctionnalités se fasse de manière transparente pour le client. Nous pourrions donc ajouter des
+contraintes ou des fonctions sans que le \emph{main} ou les tests unitaires soient dégradés.
+
+\subsection{Flexibilité}
+
+La flexibilité d'une architecture est une pierre angulaire pour la maintenabilité d'une application.
+Dans cette optique, nous devons garder notre code le plus simple possible, mais également penser aux contraintes
+induites par l'utilisation des patterns.
