@@ -8,10 +8,49 @@
 %Choix d'implémentation, avantages et inconvénients du pattern.
 \section{Travail}
 \input{sections/travail_decorator}
+La première étape de conception du projet consistait à permettre à des soldats de disposer d'armements (un bouclier et une épée). Deux catégories de soldats devaient exister, les fantassins et les cavaliers, les soldats disposant d'un certain nombre de point de vie.
+
+Pour réaliser cette première étape, nous avons commencé par créer les deux classes de soldats ainsi que deux classes d'armes. Afin d'anticiper le fait de pouvoir rajouter plus de catégories de soldat et plus d'armes, nous avons créé deux classes abstraites (Armament et SoldierAbstract).  
+
+L'objectif était alors de pouvoir rajouter une ou plusieurs armes sur un soldat existant, et cela de façon dynamique, c'est à dire sans avoir à recréer le soldat. 
+
+Pour répondre à cette problématique, nous avons utilisé le pattern Décorateur. 
+Nous avons donc créé une classe SoldierInt représentant l'interface d'un soldat. Nous avons ensuite fait hériter notre classe SoldierAbstract de SoldierInt, et nous avons fait hérité notre classe Armament de SoldierInt, classe devenant notre décorateur puisque nous avons rajouté dans cette classe une référence à SoldierInt nous permettant ainsi de décorer notre soldat.
+
+Ainsi donc, nous pouvons maintenant décorer un soldat avec des armes.
+
+Une autre architecture possible aurait été de séparer les armes des soldats , ceci en créant un décorateur SoldierArmed avec comme sous classe SoldierWithShield et SoldierWithSword, ceci permettrait de séparer le comportement des armes du comportement des soldats, permettant ainsi de définir des méthodes spécifiques aux armes, sans en affecter les soldats, et vis vers ça. Cette solution a pour inconvénient de devoir rajouter plusieurs classes.
+
+Une fois notre première architecture créé, nous avons rajouté la possibilité pour un soldat de porter des coups à ses adversaires (et à contrario de les parer) avec une vivacité dépendant de l'armement et de la catégorie du solat.
+
 \input{sections/travail_proxy}
+
+Afin de contrôler les actions demandées par le client sur le soldat (comme par exemple l'ajout d'une nouvelle arme), nous avons appliqué le pattern Procuration nous permettant ainsi de fournir au client une représentation de l'objet soldat qui aura pour rôle ici de contrôler lors de l'ajout d'une arme sur un soldat si cette arme est déjà présente ou non sur le soldat.
+
+Nous avons donc créé une interface Soldier contenant deux méthodes permettant d'ajouter des armes (addShield et addSword),interface héritant de notre classe SoldierInt. 
+Les classes Infantry et Horsman ont quand à elle été dupliqués et implémentent l'interface Soldier (modifié par la suite car une classe abstraite implémente maintenant l'interface soldat afin d'éviter la duplication de code).
+
+Enfin, nous avons rajouté une durée de vie à nos armes avec la variable RESISTANCE que nous avons placé dans nos classes d'armes (Shield et Sword). La résistance de l'arme diminue de 1point à chaque utilisation (c'est à dire à chaque appel de strike() ou de parry() ).
+
 \input{sections/travail_composite}
+
+Le seconde étape dans le projet consistait à rajouter la possibilité pour le client (et cela sans qu'il est besoin de s'en préoccuper) de créer des groupes armé, un groupe armé de soldats pouvant être composé de plusieurs groupes armés, eux-mêmes décomposés en sous-groupes armés, et ainsi de suite. Cette notion de groupe armé fait ici apparaître une structure d'arbre avec des éléments composé d'autres éléments, structure faisant apparaître une certaine hiérarchie. 
+C'est donc pour cela que nous avons choisi de mettre en place le pattern Composite en créant une classe ArmedGroup contenant une référence de Soldier (qui est notre proxy, ce que manipule le client).
+
 \input{sections/travail_visitor}
+
+Comme nous avions maintenant à la fois des groupes armé de soldats ainsi que des soldats de différente catégories, afin de faciliter l'ajout de nouvelles fonctionnalités à la fois sur les groupes armés et les soldats eux même, nous avons mis en place le pattern Visiteur. Sans ce pattern, à chaque ajout de fonctionnalité, nous étions obligé de rajouter les méthodes dans nos classes Horsman, Infantry et ArmedGroup, surtout si nous voulions faire des traitement différent en fonction de la classe. Grâce au pattern Visiteur, l'ajout de fonctionnalité supplémentaire (comme par exemple afficher tous les soldats formant un groupe armé ou encore compter des effectifs de soldats par rapport à leur type au sein d’un groupe armé) se fait maintenant dans une seule classe, sans avoir à toucher au reste du code. Nous avons donc par exemple créé une classe SoldierPrintVisitor pour ajouter la fonction d'affichage des soldats ainsi que la classe SoldierCountVisitor pour ajouter la fonction de comptabilisation, et tout ceci de manière totalement transparente vis à vis du reste du code, c'est là tout l’intérêt du pattern Visiteur, pas de modification à faire sur les autres classes de l'application et possibilité de faire des traitements spécifique pour chacune des classes de l'application. En résumé, nous pouvons maintenant ajouter des fonctionnalités sur les objets de notre choix sans toucher au reste du code.
+
 \input{sections/travail_observator}
+
+Une des autres problématiques de ce projet était de pouvoir suivre le déroulement des conflits au fur et à mesure de l’action. Une possibilité aurait été de faire de nombreux print dans nos fonctions, ce qui aurait produit des affichages au fur et à mesure du déroulement de la bataille, c'est à dire à chaque appel de parry() ou de strike(). Cependant, cette méthode n'est vraiment pas très pratique et pas du tout maintenable ! 
+C'est donc ici que le pattern Observateur va être intéressant, en effet, il va nous permettre d'observer un objet et dès qu'il change, on va pouvoir être notifié de ce changement afin d'appliquer les traitements adéquat suite à ce changement d'état. 
+Ainsi donc, pour afficher par exemple au fur et à mesure les noms des soldats morts au sein d'un groupe armé ainsi que les armés détruites, nous avons mit en place une interface Observer avec pour sous classe DeadsObserver, classe qui se chargera de réaliser l'affichage. Nous avons également rendu observable notre classe ArmedGroup en créant l'interface Observable. ObservableAbstract implémente cette interface et contient une liste d'Observer, une liste qui permettra donc à l'objet lorsqu'il change d'en informer tout ses observateurs. 
+Cette classe est également intéressante ici car elle nous permet de définir une interdépendance de type un à plusieurs, de tel façon que si on souhaite envoyer des télégrammes d’excuse à une liste d'ami une fois qu'on est mort (même si cela n'est pas envisageable dans la vrai vie), grâce au pattern, on pourra notifier tout les objets qui dépende du mort (donc de l'objet qui est observé par sa liste d'amis). L'inconvénient et la limite ici du pattern est que le graphe peut vite devenir complexe. En effet, si l'on veut mettre en place le système des envoi de télégrammes d’excuse à ses amis, c'est à dire les soldats d'un même groupe par exemple, il va falloir que chaque objet soit observé par tout les autres objets « amis », ce qui va provoquer la création de plein d'objet de type Observable provoquant alors un ralentissement notable du programme ! Au vue de ces dernières remarques, nous n'avons pas retenu la fonction des télégramme via ce pattern là.
+
 \input{sections/travail_singleton}
+
+Enfin, afin qu’il ne puisse y avoir qu'une seule instance de chaque observateur, nous avons mis en place le pattern Singleton, cela en donnant accès à l'instance de l'observateur via la méthode getInstance(), méthode qui renvoit la variable Instance  (déclaré en statique). Le constructeur est quand à lui rendu inaccessible.
+
 \input{sections/travail_abstract_factory}
 \input{sections/cdc_tests}
